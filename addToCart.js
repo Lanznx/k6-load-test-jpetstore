@@ -12,9 +12,9 @@ export const options = {
   scenarios: {
     Scenario_1: {
       executor: 'constant-vus',
-      vus: 100,
+      vus: 1,
       exec: 'addToCart',
-      duration: '5m',
+      duration: '5s',
     },
   },
 }
@@ -23,9 +23,8 @@ export const options = {
 
 export function addToCart() {
   let response
-  const data = generateRandomString(10)
   group('addToCart', function () {
-    response = http.get( 
+    response = http.get(
       'http://140.119.163.226:32635/jpetstore/actions/Cart.action?addItemToCart=&workingItemId=EST-6',
       {
         headers: {
@@ -34,7 +33,11 @@ export function addToCart() {
         },
       }
     )
-    check(response, { 'status equals 200': response => response.status.toString() === '200' })
+    check(response, {
+      'is inserted': (r) => r.body.includes(' name="EST-6" type="text" value='),
+      'is status 200': (r) => r.status === 200,
+    }
+    );
   })
 
   // Automatically added sleep
