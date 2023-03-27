@@ -26,7 +26,7 @@ export function Register() {
   const data = generateRandomString(10)
   group('Register', function () {
     response = http.post( 
-      'http://140.119.163.226:32635/jpetstore/actions/Account.action;',
+      'http://jpetstore.cerana.tech/jpetstore/actions/Account.action;',
       `username=${data}&password=j2ee&repeatedPassword=j2ee&account.firstName=${data}&account.lastName=${data}&account.email=${data}&account.phone=${data}&account.address1=${data}&account.address2=${data}&account.city=${data}&account.state=${data}&account.zip=${data}&account.country=${data}&account.languagePreference=english&account.favouriteCategoryId=FISH&newAccount=Save Account Information&_sourcePage=oXxdIE9wLvknHfdpOfVv1_HSSP7U0TjQXKUueZ-pcEl12_lEHVTjmySBuR9aRaQkB9cwk2viOSxiuKfc8m-IwFgxcfO1dOlqFZCyM249tTA=&__fp=rvB7Mww1bCdoEMnIev_TleDqL3938m9SADN3W-ia4AF5Jc9HqbsskLB5Jvjsathjuu3sXzxWsGB6gPRLGCAYz7mAsO_etUGKgPBinwNCCwtQw_WxpkK9tqy7bzWeGQtdEWFx82zrF8Z19IQ2XtnRRWNNV0G-8ZTVErw2oYgh9uerKQnfYYTQx3ZRAWaUn90q`,
       {
         headers: {

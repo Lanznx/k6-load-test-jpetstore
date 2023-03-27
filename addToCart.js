@@ -25,7 +25,7 @@ export function addToCart() {
   let response
   group('addToCart', function () {
     response = http.get(
-      'http://140.119.163.226:32635/jpetstore/actions/Cart.action?addItemToCart=&workingItemId=EST-6',
+      'http://jpetstore.cerana.tech/jpetstore/actions/Cart.action?addItemToCart=&workingItemId=EST-6',
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
