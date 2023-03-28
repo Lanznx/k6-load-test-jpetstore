@@ -12,16 +12,14 @@ export const options = {
   scenarios: {
     Scenario_1: {
       executor: 'constant-vus',
-      vus: 100,
       exec: 'Register',
-      duration: '5m',
     },
   },
 }
 
 
 
-export function Register() {
+export default function Register() {
   let response
   const data = generateRandomString(10)
   group('Register', function () {
