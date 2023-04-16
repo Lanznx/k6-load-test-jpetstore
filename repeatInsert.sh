@@ -1,6 +1,6 @@
-VU=300
+VU=100
 
-for j in {1..10}
+for j in {1..6}
 do
   echo "========== round $j VUs $VU ========== " >> ./output/data.txt
   for i in {1..10}
@@ -12,7 +12,7 @@ do
 
     cd /home/ansible/load-test-http/http-request/scripts
     # sudo k6 run --vus $VU --duration 5m --out influxdb=http://localhost:8086/k6 ./register.js 
-    sudo k6 run --vus $VU --duration 1s ./register.js | grep -E "checks|http_req_duration" | tee -a ./output/data.txt
+    sudo k6 run --vus $VU --duration 5m ./register.js | grep -E "checks|http_req_duration" | tee -a ./output/data.txt
     sleep 10s
 
     mysql -h 140.119.163.226 --port=30360 -u root -p'brandon' -e 'DELETE FROM jpetstore.ACCOUNT WHERE 1=1;'

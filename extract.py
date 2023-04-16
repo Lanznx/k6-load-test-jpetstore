@@ -21,7 +21,7 @@ with open('./output/results.csv', 'w', newline='') as f:
         if(int(match_fail[m]) == 0):
             writer.writerow([match_fail[m], ","])
         else:
-            writer.writerow([str(int(match_fail[m]) / int(match_success[m])), ","])
+            writer.writerow([str(int(match_fail[m]) / (int(match_success[m])+int(match_fail[m]) )), ","])
 
 
         for row in results:
