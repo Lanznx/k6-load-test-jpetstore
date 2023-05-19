@@ -4,6 +4,7 @@ import json
 import mysql.connector
 import time
 import sys
+import pprint
 
 args = sys.argv[1:]
 ENV_ID = args[0]
@@ -40,12 +41,15 @@ def main():
         'cpu_container_mysql': cpu_by_container_data[1]['value'][1],
         'memory_container_jpetstore_backend': memory_by_container_data[0]['value'][1],
         'memory_container_mysql': memory_by_container_data[1]['value'][1],
-        'cpu_instance_jpetstore_backend': cpu_by_instance_data[0]['value'][1],
-        'cpu_instance_mysql': cpu_by_instance_data[1]['value'][1],
-        'memory_instance_jpetstore_backend': memory_by_instance_data[0]['value'][1],
-        'memory_instance_mysql': memory_by_instance_data[1]['value'][1],
+        'cpu_instance_jpetstore_backend': cpu_by_instance_data[0]['value'][1], # cfliao1
+        # 'cpu_instance_mysql': cpu_by_instance_data[1]['value'][1], # cfliao2
+        'cpu_instance_mysql': 0, #單顆 node 適用
+        'memory_instance_jpetstore_backend': memory_by_instance_data[0]['value'][1], # cfliao1
+        # 'memory_instance_mysql': memory_by_instance_data[1]['value'][1], # cfliao2
+        'memory_instance_mysql': 0, #單顆 node 適用
         'timestamp': int(time.time())
     }
+    pprint.pprint(metric)
     insert_data_to_mysql(metric)
 
 
