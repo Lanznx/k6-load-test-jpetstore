@@ -21,7 +21,6 @@ mydb = mysql.connector.connect(
   database="mysql"
 )
 
-
 mycursor = mydb.cursor()
 
 
@@ -33,6 +32,7 @@ def main():
     response_time = get_response_time(results)
 
     cpu_by_container_data, cpu_by_instance_data, memory_by_container_data, memory_by_instance_data = get_metrics(prometheus_url, TIME_RANGE)
+    externalDB_cpu_by_container_data, externalDB_memory_by_container_data = get_externalDB_metrics(prometheus_url, TIME_RANGE)
     metric = {
         'env_id': ENV_ID,
         'round': ROUND,
@@ -40,9 +40,9 @@ def main():
         'error_rate': error_rate,
         'response_time': response_time,
         'cpu_container_jpetstore_backend': cpu_by_container_data[0]['value'][1],
-        'cpu_container_mysql': cpu_by_container_data[1]['value'][1],
+        'cpu_container_mysql': externalDB_cpu_by_container_data[0]['value'][1],
         'memory_container_jpetstore_backend': memory_by_container_data[0]['value'][1],
-        'memory_container_mysql': memory_by_container_data[1]['value'][1],
+        'memory_container_mysql': externalDB_memory_by_container_data[0]['value'][1],
         'cpu_instance_jpetstore_backend': cpu_by_instance_data[0]['value'][1], # cfliao1
         # 'cpu_instance_mysql': cpu_by_instance_data[1]['value'][1], # cfliao2
         'cpu_instance_mysql': 0, #單顆 node 適用
@@ -92,6 +92,16 @@ def get_data_from_prometheus(promql, prometheus_url):
     )
     data = json.loads(response.text)
     return data['data']['result']
+
+
+def get_externalDB_metrics(prometheus_url, time_range):
+    cpu_by_container = f'sum(increase(container_cpu_usage_seconds_total{{name="jp-mysql-mysql-1"}}[{time_range}m]))'
+    memory_by_container = f'sum(increase(container_memory_working_set_bytes{{name="jp-mysql-mysql-1"}}[{time_range}m]))'
+
+    externalDB_cpu_by_container_data = get_data_from_prometheus(cpu_by_container, prometheus_url)
+    externalDB_memory_by_container_data = get_data_from_prometheus(memory_by_container, prometheus_url)
+
+    return externalDB_cpu_by_container_data, externalDB_memory_by_container_data
 
 def get_metrics(prometheus_url, time_range):
     cpu_by_container = f'sum(increase(container_memory_working_set_bytes{{container!="POD",container!="",namespace="jpetstore"}}[{time_range}m])) by (container)'
