@@ -6,6 +6,9 @@ import time
 import sys
 import pprint
 import os
+import dotenv
+
+dotenv.load_dotenv()
 
 args = sys.argv[1:]
 ENV_ID = args[0]
