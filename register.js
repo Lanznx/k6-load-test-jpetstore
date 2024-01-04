@@ -1,5 +1,5 @@
-import { sleep, check, group } from 'k6'
-import http from 'k6/http'
+import { sleep, check, group } from 'k6';
+import http from 'k6/http';
 
 export const options = {
   ext: {
@@ -15,37 +15,39 @@ export const options = {
       exec: 'Register',
     },
   },
-}
-
-
+};
 
 export default function Register() {
-  let response
-  const data = generateRandomString(10)
+  let response;
+  const data = generateRandomString();
   group('Register', function () {
-    response = http.post( 
-      'http://jpetstore.cerana.tech/jpetstore/actions/Account.action;',
-      `username=${data}&password=j2ee&repeatedPassword=j2ee&account.firstName=${data}&account.lastName=${data}&account.email=${data}&account.phone=${data}&account.address1=${data}&account.address2=${data}&account.city=${data}&account.state=${data}&account.zip=${data}&account.country=${data}&account.languagePreference=english&account.favouriteCategoryId=FISH&newAccount=Save Account Information&_sourcePage=oXxdIE9wLvknHfdpOfVv1_HSSP7U0TjQXKUueZ-pcEl12_lEHVTjmySBuR9aRaQkB9cwk2viOSxiuKfc8m-IwFgxcfO1dOlqFZCyM249tTA=&__fp=rvB7Mww1bCdoEMnIev_TleDqL3938m9SADN3W-ia4AF5Jc9HqbsskLB5Jvjsathjuu3sXzxWsGB6gPRLGCAYz7mAsO_etUGKgPBinwNCCwtQw_WxpkK9tqy7bzWeGQtdEWFx82zrF8Z19IQ2XtnRRWNNV0G-8ZTVErw2oYgh9uerKQnfYYTQx3ZRAWaUn90q`,
+    response = http.post(
+      'http://jpetstore.cerana.tech/jpetstore/actions/Account.action',
+      `username=${data}&password=j2ee&repeatedPassword=j2ee&account.firstName=${data}&account.lastName=${data}&account.email=${data}@example.com&account.phone=123-456-7890&account.address1=123 Main St&account.address2=Apt 4&account.city=Anytown&account.state=Anystate&account.zip=12345&account.country=USA&account.languagePreference=english&account.favouriteCategoryId=FISH&newAccount=Save Account Information`,
       {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
         },
       }
-    )
-    check(response, { 'status equals 200': response => response.status.toString() === '200' })
-  })
+    );
+    check(response, { 'status is 200': (r) => r.status === 200 });
+  });
 
   // Automatically added sleep
-  sleep(1)
+  sleep(1);
 }
 
+function generateRandomString() {
+  // Fixed part of the username
+  const fixedPart = 'User_';
 
-function generateRandomString(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  // Random part of the username
+  var randomPart = '';
+  var characters = '0123456789';
   var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  for (var i = 0; i < 5; i++) {
+    randomPart += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
-  return result;
+
+  return fixedPart + randomPart;
 }
