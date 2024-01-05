@@ -154,7 +154,7 @@ def compute_performance_metrics(data, env_id, round, vu, time_range, prometheus_
             "VU": int(vu),
             "error_rate": float(error_rate),
             "response_time": float(response_time),
-            "timestamp": int(time.time()),
+            "timestamp": int(time.time() * 1000),
             "usage_cpu_SUT": float(metrics_data["usage_cpu"][0]["value"][1]),
             "usage_cpu_DB": float(metrics_data["usage_cpu"][1]["value"][1]),
             "saturation_cpu_SUT": float(metrics_data["saturation_cpu"][0]["value"][1]),
@@ -163,14 +163,28 @@ def compute_performance_metrics(data, env_id, round, vu, time_range, prometheus_
             "usage_mem_DB": float(metrics_data["usage_mem"][1]["value"][1]),
             "saturation_mem_SUT": float(metrics_data["saturation_mem"][0]["value"][1]),
             "saturation_mem_DB": float(metrics_data["saturation_mem"][1]["value"][1]),
-            "usage_read_disk_SUT": float(metrics_data["usage_read_disk"][0]["value"][1]),
+            "usage_read_disk_SUT": float(
+                metrics_data["usage_read_disk"][0]["value"][1]
+            ),
             "usage_read_disk_DB": float(metrics_data["usage_read_disk"][1]["value"][1]),
-            "usage_write_disk_SUT": float(metrics_data["usage_write_disk"][0]["value"][1]),
-            "usage_write_disk_DB": float(metrics_data["usage_write_disk"][1]["value"][1]),
-            "usage_received_network_SUT": float(metrics_data["usage_received_network_SUT"][0]["value"][1]),
-            "usage_received_network_DB": float(metrics_data["usage_received_network_DB"][0]["value"][1]),
-            "usage_transmitted_network_SUT": float(metrics_data["usage_transmitted_network_SUT"][0]["value"][1]),
-            "usage_transmitted_network_DB": float(metrics_data["usage_transmitted_network_DB"][0]["value"][1]),
+            "usage_write_disk_SUT": float(
+                metrics_data["usage_write_disk"][0]["value"][1]
+            ),
+            "usage_write_disk_DB": float(
+                metrics_data["usage_write_disk"][1]["value"][1]
+            ),
+            "usage_received_network_SUT": float(
+                metrics_data["usage_received_network_SUT"][0]["value"][1]
+            ),
+            "usage_received_network_DB": float(
+                metrics_data["usage_received_network_DB"][0]["value"][1]
+            ),
+            "usage_transmitted_network_SUT": float(
+                metrics_data["usage_transmitted_network_SUT"][0]["value"][1]
+            ),
+            "usage_transmitted_network_DB": float(
+                metrics_data["usage_transmitted_network_DB"][0]["value"][1]
+            ),
         }
     except IndexError as e:
         print(f"Error retrieving metrics: {e}")

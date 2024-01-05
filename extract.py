@@ -52,7 +52,7 @@ def main():
         'memory_instance_jpetstore_backend': memory_by_instance_data[0]['value'][1], # cfliao1
         # 'memory_instance_mysql': memory_by_instance_data[1]['value'][1], # cfliao2
         'memory_instance_mysql': 0, #單顆 node 適用
-        'timestamp': int(time.time())
+        'timestamp': int(time.time()*1000) 
     }
     pprint.pprint(metric)
     insert_data_to_mysql(metric)
