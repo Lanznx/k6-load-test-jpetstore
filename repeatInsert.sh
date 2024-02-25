@@ -8,13 +8,13 @@ do
   echo "========== round $j VUs $VU ========== " >> $PATH_TO_TXT
   for i in {1..10}
   do
-    # cd /home/brandon/k6
+    # cd ~/k6
     # docker compose down
     # docker compose up -d grafana influxdb
     # sleep 10s
     cd ~/k6-load-test-jpetstore
-    k6 run --vus $VU --duration 2m /home/brandon/k6-load-test-jpetstore/register.js | grep -E "checks|http_req_duration" | tee -a $PATH_TO_TXT
-    /home/brandon/miniconda3/bin/python /home/brandon/k6-load-test-jpetstore/refactor_promql.py $ENV_ID $i $VU $TIME_RANGE $PATH_TO_TXT
+    k6 run --vus $VU --duration 2m ~/k6-load-test-jpetstore/register.js | grep -E "checks|http_req_duration" | tee -a $PATH_TO_TXT
+    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/refactor_promql.py $ENV_ID $i $VU $TIME_RANGE $PATH_TO_TXT
 
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.ACCOUNT WHERE 1=1;'
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.PROFILE WHERE 1=1;'
