@@ -43,9 +43,9 @@ function generateRandomString() {
 
   // Random part of the username
   var randomPart = '';
-  var characters = '0123456789';
+  var characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
   var charactersLength = characters.length;
-  for (var i = 0; i < 5; i++) {
+  for (var i = 0; i < 7; i++) {
     randomPart += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
 
