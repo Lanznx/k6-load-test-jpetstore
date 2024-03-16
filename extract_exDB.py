@@ -100,20 +100,20 @@ def fetch_prometheus_query(promql, prometheus_url):
 
 
 def retrieve_externalDB_metrics(prometheus_url, time_range):
-    usage_cpu = f'sum(increase(container_cpu_usage_seconds_total{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
-    # saturation_cpu = f'sum(increase(container_cpu_cfs_throttled_seconds_total{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
+    usage_cpu = f'sum(increase(container_cpu_usage_seconds_total{{name="mysql-container"}}[{time_range}])) by (container)'
+    # saturation_cpu = f'sum(increase(container_cpu_cfs_throttled_seconds_total{{name="mysql-container"}}[{time_range}])) by (container)'
 
-    usage_mem = f'avg(avg_over_time(container_memory_working_set_bytes{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
-    saturation_mem = f'sum(increase(container_memory_swap{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
+    usage_mem = f'avg(avg_over_time(container_memory_working_set_bytes{{name="mysql-container"}}[{time_range}])) by (container)'
+    saturation_mem = f'sum(increase(container_memory_swap{{name="mysql-container"}}[{time_range}])) by (container)'
 
-    usage_read_disk = f'sum(rate(container_fs_reads_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
-    usage_write_disk = f'sum(rate(container_fs_writes_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}])) by (container)'
+    usage_read_disk = f'sum(rate(container_fs_reads_bytes_total{{name="mysql-container"}}[{time_range}])) by (container)'
+    usage_write_disk = f'sum(rate(container_fs_writes_bytes_total{{name="mysql-container"}}[{time_range}])) by (container)'
 
-    usage_received_network_SUT = f'sum(rate(container_network_receive_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}]))'
-    usage_received_network_DB = f'sum(rate(container_network_receive_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}]))'
+    usage_received_network_SUT = f'sum(rate(container_network_receive_bytes_total{{name="mysql-container"}}[{time_range}]))'
+    usage_received_network_DB = f'sum(rate(container_network_receive_bytes_total{{name="mysql-container"}}[{time_range}]))'
 
-    usage_transmitted_network_SUT = f'sum(rate(container_network_transmit_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}]))'
-    usage_transmitted_network_DB = f'sum(rate(container_network_transmit_bytes_total{{name="jp-mysql-mysql-1"}}[{time_range}]))'
+    usage_transmitted_network_SUT = f'sum(rate(container_network_transmit_bytes_total{{name="mysql-container"}}[{time_range}]))'
+    usage_transmitted_network_DB = f'sum(rate(container_network_transmit_bytes_total{{name="mysql-container"}}[{time_range}]))'
 
     metrics = {
         "usage_cpu": fetch_prometheus_query(usage_cpu, prometheus_url),
