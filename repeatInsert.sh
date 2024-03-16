@@ -14,7 +14,7 @@ do
     # sleep 10s
     cd ~/k6-load-test-jpetstore
     k6 run --vus $VU --duration 2m ~/k6-load-test-jpetstore/register.js | grep -E "checks|http_req_duration" | tee -a $PATH_TO_TXT
-    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/refactor_promql.py $ENV_ID $i $VU $TIME_RANGE $PATH_TO_TXT
+    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/extract_exDB.py $ENV_ID $i $VU $TIME_RANGE $PATH_TO_TXT
 
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.ACCOUNT WHERE 1=1;'
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.PROFILE WHERE 1=1;'
