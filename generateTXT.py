@@ -11,7 +11,7 @@ def create_large_text_file(file_path, target_size, line_length=100):
         while total_bytes < target_size:
             line = generate_random_string(line_length)
             file.write(line + '\n')
-            total_bytes += len(line.encode('utf-8')) + 1  # 加1是因为换行符
+            total_bytes += len(line.encode('utf-8')) + 1 
 
 if __name__ == "__main__":
     create_large_text_file('32MB.txt', 32*1024*1024)
