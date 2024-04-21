@@ -8,45 +8,37 @@ do
   if [ $j -eq 1 ]
   then
     TXT_SIZE="2MB"
+    SLEEP_TIME=30
+    ENV_ID=100
   if [ $j -eq 2 ]
   then
     TXT_SIZE="16MB" 
+    SLEEP_TIME=120
+    ENV_ID=110
   if [ $j -eq 3 ]
   then
     TXT_SIZE="128MB"
+    SLEEP_TIME=600
+    ENV_ID=120
   if [ $j -eq 4 ]
   then
     TXT_SIZE="512MB"
-  if [ $j -eq 5 ]
-  then
-    TXT_SIZE="1024MB"
+    SLEEP_TIME=2500
+    ENV_ID=130
   fi
 
   for i in {1..10}
-  echo "========== round $j VUs $VU ========== " >> $PATH_TO_TXT
+  echo "========== TXT_SIZE $TXT_SIZE round $i ========== " >> $PATH_TO_TXT
   do
     cd ~/k6-load-test-jpetstore
-    curl --location 'http://jpetstore.cerana.tech' --header 'Content-Type: application/json' --data "{\"file_path\": \"./${TXT_SIZE}.txt\"}"
+    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/batch_promql.py $ENV_ID $i $TXT_SIZE 
+
 
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.batch WHERE 1=1;' 
 
     ssh $SSH_USER@$SSH_HOST "k3s kubectl scale deployment jpetstore-backend-deployment --replicas=0 -n jpetstore"
     ssh $SSH_USER@$SSH_HOST "k3s kubectl scale deployment jpetstore-backend-deployment --replicas=$SUT_REPLICAS -n jpetstore"
-    if [ $TXT_SIZE -eq "2MB" ]
-    then
-      sleep 30
-    if [ $TXT_SIZE -eq "16MB" ]
-    then
-      sleep 120
-    if [ $TXT_SIZE -eq "128MB" ]
-    then
-      sleep 600
-    if [ $TXT_SIZE -eq "512MB" ]
-    then
-      sleep 2500
-    if [ $TXT_SIZE -eq "1024MB" ]
-    then
-      sleep 5000
-    fi
+    
+    sleep $SLEEP_TIME
   done
 done
