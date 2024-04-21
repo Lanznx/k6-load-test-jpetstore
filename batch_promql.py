@@ -129,20 +129,26 @@ def retrieve_metrics(prometheus_url, time_range):
 
 
 def send_batch_request(txt_size):
-    response_time = requests.post(
-        "http://jpetstore.cerana.tech",
-        headers={"Content-Type": "application/json"},
-        data=json.dumps({"file_path": f"./{txt_size}.txt"}),
-    ).json()["response_time"]
-    return response_time
+    try:
+        response_time = requests.post(
+            "http://jpetstore.cerana.tech",
+            headers={"Content-Type": "application/json"},
+            data=json.dumps({"file_path": f"./{txt_size}.txt"}),
+        ).json()["response_time"]
+        return response_time
+    except requests.exceptions.Timeout:
+        print("The request timed out")
+    except requests.exceptions.RequestException as e:
+        print("An error occurred: ", e)
 
 def convert_to_time_range(response_time):
-    response_time += 10
+    response_time += 60
     time_range = f"{int(response_time)}s"
     return time_range
 
 def compute_performance_metrics(env_id, round, txt_size, prometheus_url):
     response_time = send_batch_request(txt_size)
+    print(f"Response time: {response_time}")
     time_range = convert_to_time_range(response_time)
     metrics_data = retrieve_metrics(prometheus_url, time_range)
 
@@ -235,8 +241,8 @@ def main():
     )
     print("-" * 50)
     pprint.pprint(metric)
-    if metric is not None:
-        insert_data_to_mysql(metric, mycursor, mydb)
+    # if metric is not None:
+    #     insert_data_to_mysql(metric, mycursor, mydb)
     mycursor.close()
     mydb.close()
 
