@@ -241,8 +241,8 @@ def main():
     )
     print("-" * 50)
     pprint.pprint(metric)
-    # if metric is not None:
-    #     insert_data_to_mysql(metric, mycursor, mydb)
+    if metric is not None:
+        insert_data_to_mysql(metric, mycursor, mydb)
     mycursor.close()
     mydb.close()
 
