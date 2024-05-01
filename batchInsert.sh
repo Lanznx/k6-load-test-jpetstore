@@ -5,7 +5,7 @@ source .env
 touch $PATH_TO_TXT
 sudo chmod 777 $PATH_TO_TXT
 
-for j in {1..7}; do
+for j in {1..6}; do
   case $j in
     1)
       TXT_SIZE="16MB"
