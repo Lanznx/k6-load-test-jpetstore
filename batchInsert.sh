@@ -10,32 +10,32 @@ for j in {1..6}; do
     1)
       TXT_SIZE="16MB"
       SLEEP_TIME=80
-      ENV_ID=100
+      ENV_ID=200
       ;;
     2)
       TXT_SIZE="32MB"
       SLEEP_TIME=80
-      ENV_ID=110
+      ENV_ID=210
       ;;
     3)
       TXT_SIZE="64MB"
       SLEEP_TIME=80
-      ENV_ID=120
+      ENV_ID=220
       ;;
     4)
       TXT_SIZE="128MB"
       SLEEP_TIME=100
-      ENV_ID=130
+      ENV_ID=230
       ;;
     5)
       TXT_SIZE="256MB"
       SLEEP_TIME=120
-      ENV_ID=140
+      ENV_ID=240
       ;;
     6)
       TXT_SIZE="512MB"
       SLEEP_TIME=200
-      ENV_ID=150
+      ENV_ID=250
       ;;
   esac
 
@@ -45,7 +45,7 @@ for j in {1..6}; do
     echo SLEEP_TIME=$SLEEP_TIME
 
     cd ~/k6-load-test-jpetstore
-    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/batch_promql.py $ENV_ID $i $TXT_SIZE
+    ~/miniconda3/bin/python ~/k6-load-test-jpetstore/batch_promql_externalDB.py $ENV_ID $i $TXT_SIZE
 
     mysql -h $REMOTE_MYSQL_HOST --port=$REMOTE_MYSQL_PORT -u $REMOTE_MYSQL_USER -p"$REMOTE_MYSQL_PASSWORD" -e 'DELETE FROM jpetstore.batch WHERE 1=1;' 
 
