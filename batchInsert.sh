@@ -40,7 +40,10 @@ for j in {1..7}; do
   esac
 
   for i in {1..10}; do
-    echo "========== TXT_SIZE ${TXT_SIZE} round ${i} ========== " >> $PATH_TO_TXT
+    echo "========== TXT_SIZE ${TXT_SIZE} round ${i} ========== "
+    echo ENV_ID=$ENV_ID
+    echo SLEEP_TIME=$SLEEP_TIME
+
     cd ~/k6-load-test-jpetstore
     ~/miniconda3/bin/python ~/k6-load-test-jpetstore/batch_promql.py $ENV_ID $i $TXT_SIZE
 
